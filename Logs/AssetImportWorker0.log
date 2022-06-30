@@ -233,3 +233,15 @@ Received Import Request.
   path: Assets/Editor
   artifactKey: Guid(0336cc9e4e68ca84392077b848decb81) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
 Start importing Assets/Editor using Guid(0336cc9e4e68ca84392077b848decb81) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6afed875831b66da66745476a501c2fe') in 0.022181 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 6330.741369 seconds.
+  path: Assets/Scripts
+  artifactKey: Guid(fd9c214f640fae348958e74eaea6f543) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts using Guid(fd9c214f640fae348958e74eaea6f543) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9de02a8f877ce580dbd95eafe31aaced') in 0.002736 seconds 
+========================================================================
+Received Import Request.
+  Time since last request: 1.191523 seconds.
+  path: Assets/Scripts/Tank
+  artifactKey: Guid(46e032e6247865441876c868e03138e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Tank using Guid(46e032e6247865441876c868e03138e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cd0d85ec59b70ede8842f1d858534c3b') in 0.000937 seconds 
