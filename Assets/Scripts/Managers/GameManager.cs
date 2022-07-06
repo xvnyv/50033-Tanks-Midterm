@@ -8,20 +8,21 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int m_NumRoundsToWin = 5;            
-    public float m_StartDelay = 3f;             
-    public float m_EndDelay = 3f;               
-    public CameraControl m_CameraControl;       
-    public Text m_MessageText;                  
+    public int m_NumRoundsToWin = 5;
+    public float m_StartDelay = 3f;
+    public float m_EndDelay = 3f;
+    public CameraControl m_CameraControl;
+    public Text m_MessageText;
     public GameObject[] m_TankPrefabs;
-    public TankManager[] m_Tanks;               
+    public TankManager[] m_Tanks;
     public List<Transform> wayPointsForAI;
 
-    private int m_RoundNumber;                  
-    private WaitForSeconds m_StartWait;         
-    private WaitForSeconds m_EndWait;           
-    private TankManager m_RoundWinner;          
-    private TankManager m_GameWinner;           
+    private int m_RoundNumber;
+    private WaitForSeconds m_StartWait;
+    private WaitForSeconds m_EndWait;
+    private TankManager m_RoundWinner;
+    private TankManager m_GameWinner;
+    private System.Random rd = new System.Random();
 
 
     private void Start()
@@ -77,6 +78,7 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator RoundStarting()
     {
+        ResetWaypoints();
         ResetAllTanks();
         DisableTankControl();
 
@@ -172,10 +174,38 @@ public class GameManager : MonoBehaviour
         return sb.ToString();
     }
 
+    private void ResetWaypoints()
+    {
+        for (int i = 0; i < wayPointsForAI.Count; i++)
+        {
+            bool foundPosition = false;
+            Vector3 newPosition = new Vector3(rd.Next(-38, 38), 0, rd.Next(-38, 38));
+            while (!foundPosition)
+            {
+                foundPosition = true;
+                Collider[] colliders = Physics.OverlapSphere(newPosition, 1);
+                for (int j = 0; j < colliders.Length; j++)
+                {
+                    if (!colliders[j].CompareTag("Ground"))
+                    {
+                        newPosition = new Vector3(rd.Next(-38, 38), 0, rd.Next(-38, 38));
+                        foundPosition = false;
+                        break;
+                    }
+                }
+            }
+            wayPointsForAI[i].position = newPosition;
+        }
+    }
 
     private void ResetAllTanks()
     {
-        for (int i = 0; i < m_Tanks.Length; i++) m_Tanks[i].Reset();
+        for (int i = 0; i < m_Tanks.Length; i++)
+        {
+            m_Tanks[i].SetWaypoints(wayPointsForAI);
+            m_Tanks[i].RandomiseSpawnPoint();
+            m_Tanks[i].Reset();
+        }
     }
 
 

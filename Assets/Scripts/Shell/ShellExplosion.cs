@@ -4,12 +4,12 @@ public class ShellExplosion : MonoBehaviour
 {
 
     public LayerMask m_TankMask;
-    public ParticleSystem m_ExplosionParticles;       
-    public AudioSource m_ExplosionAudio;              
-    public float m_MaxDamage = 100f;                  
-    public float m_ExplosionForce = 1000f;            
-    public float m_MaxLifeTime = 2f;                  
-    public float m_ExplosionRadius = 5f;              
+    public ParticleSystem m_ExplosionParticles;
+    public AudioSource m_ExplosionAudio;
+    public float m_MaxDamage = 100f;
+    public float m_ExplosionForce = 1000f;
+    public float m_MaxLifeTime = 2f;
+    public float m_ExplosionRadius = 5f;
 
 
     private void Start()
@@ -35,6 +35,12 @@ public class ShellExplosion : MonoBehaviour
 
             float damage = CalculateDamage(targetRigidbody.position);
             targetHealth.TakeDamage(damage);
+
+            // blink tank if hit
+            if (damage > 0)
+            {
+                colliders[i].GetComponent<TankBlink>().Blink();
+            }
         }
 
         m_ExplosionParticles.transform.parent = null;
