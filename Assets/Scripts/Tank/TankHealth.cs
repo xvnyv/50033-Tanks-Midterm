@@ -42,6 +42,19 @@ public class TankHealth : MonoBehaviour
         if (m_CurrentHealth <= 0f && !m_Dead) OnDeath();
     }
 
+    public void Heal(float amount)
+    {
+        if (amount + m_CurrentHealth > m_StartingHealth)
+        {
+            m_CurrentHealth = m_StartingHealth;
+        }
+        else
+        {
+            m_CurrentHealth += amount;
+        }
+        SetHealthUI();
+    }
+
 
     private void SetHealthUI()
     {
@@ -62,5 +75,6 @@ public class TankHealth : MonoBehaviour
         m_ExplosionAudio.Play();
 
         gameObject.SetActive(false);
+        gameObject.GetComponent<TankBlink>().ResetTransparency();
     }
 }

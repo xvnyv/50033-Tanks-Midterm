@@ -19,6 +19,21 @@ public class TankBlink : MonoBehaviour
         }
     }
 
+    public void ResetTransparency()
+    {
+        MeshRenderer[] children = gameObject.GetComponentsInChildren<MeshRenderer>();
+        Color newColor;
+        foreach (MeshRenderer child in children)
+        {
+            foreach (Material mat in child.materials)
+            {
+                newColor = mat.color;
+                newColor.a = 1;
+                mat.SetColor("_Color", newColor);
+            }
+        }
+    }
+
     private void SetAlpha(float alpha)
     {
         if (gameObject != null)

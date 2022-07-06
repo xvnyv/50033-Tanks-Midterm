@@ -12,6 +12,7 @@ public class TankManager
     [HideInInspector] public string m_ColoredPlayerText;
     [HideInInspector] public GameObject m_Instance;
     [HideInInspector] public int m_Wins;
+    [HideInInspector] public bool isPlayer = false;
 
 
     private TankMovement m_Movement;
@@ -42,6 +43,7 @@ public class TankManager
 
     public void SetupPlayerTank()
     {
+        isPlayer = true;
         m_Movement = m_Instance.GetComponent<TankMovement>();
         m_Shooting = m_Instance.GetComponent<TankShooting>();
         m_CanvasGameObject = m_Instance.GetComponentInChildren<Canvas>().gameObject;

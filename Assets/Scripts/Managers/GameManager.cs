@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public GameObject[] m_TankPrefabs;
     public TankManager[] m_Tanks;
     public List<Transform> wayPointsForAI;
+    public PowerupManager powerupManager;
 
     private int m_RoundNumber;
     private WaitForSeconds m_StartWait;
@@ -35,7 +36,6 @@ public class GameManager : MonoBehaviour
 
         StartCoroutine(GameLoop());
     }
-
 
     private void SpawnAllTanks()
     {
@@ -81,6 +81,15 @@ public class GameManager : MonoBehaviour
         ResetWaypoints();
         ResetAllTanks();
         DisableTankControl();
+        int playerScore = 0;
+        for (int i = 0; i < m_Tanks.Length; i++)
+        {
+            if (m_Tanks[i].isPlayer)
+            {
+                playerScore = m_Tanks[i].m_Wins;
+            }
+        }
+        powerupManager.SpawnPowerups(m_NumRoundsToWin, playerScore);
 
         m_CameraControl.SetStartPositionAndSize();
 
@@ -174,27 +183,32 @@ public class GameManager : MonoBehaviour
         return sb.ToString();
     }
 
+    private Vector3 GetRandomPosition()
+    {
+        bool foundPosition = false;
+        Vector3 newPosition = new Vector3(rd.Next(-38, 38), 0, rd.Next(-38, 38));
+        while (!foundPosition)
+        {
+            foundPosition = true;
+            Collider[] colliders = Physics.OverlapSphere(newPosition, 1);
+            for (int j = 0; j < colliders.Length; j++)
+            {
+                if (!colliders[j].CompareTag("Ground"))
+                {
+                    newPosition = new Vector3(rd.Next(-38, 38), 0, rd.Next(-38, 38));
+                    foundPosition = false;
+                    break;
+                }
+            }
+        }
+        return newPosition;
+    }
+
     private void ResetWaypoints()
     {
         for (int i = 0; i < wayPointsForAI.Count; i++)
         {
-            bool foundPosition = false;
-            Vector3 newPosition = new Vector3(rd.Next(-38, 38), 0, rd.Next(-38, 38));
-            while (!foundPosition)
-            {
-                foundPosition = true;
-                Collider[] colliders = Physics.OverlapSphere(newPosition, 1);
-                for (int j = 0; j < colliders.Length; j++)
-                {
-                    if (!colliders[j].CompareTag("Ground"))
-                    {
-                        newPosition = new Vector3(rd.Next(-38, 38), 0, rd.Next(-38, 38));
-                        foundPosition = false;
-                        break;
-                    }
-                }
-            }
-            wayPointsForAI[i].position = newPosition;
+            wayPointsForAI[i].position = GetRandomPosition();
         }
     }
 
